@@ -1,23 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
-  title = 'lazyLoading';
-  public arr = Array(50);
-  public arr1 = Array(50);
-   ngOnInit(){
+export class AppComponent {
+  title = 'secondProject';
+  public arr = Array(30);
+  count :number= 1;
+  flag: boolean=false;
 
-      window.addEventListener('scroll', this.scroll, true); //third parameter
+  @HostListener("window:scroll", ['$event'])
+  onScroll(): void{
+    if((window.innerHeight + window.scrollY)>= document.body.offsetHeight){
+      this.flag = true;
+      setTimeout(()=>{
+        this.flag = false;
+        this.arr = [...this.arr, this.count++];
+        
+      },1000);
+      
+    }
   }
-  
-  scroll = (): void => {
-    //handle your scroll here
-    //notice the 'odd' function assignment to a class field
-    //this is used to be able to remove the event listener
-  };
- }
+}
 
